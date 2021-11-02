@@ -1,0 +1,63 @@
+#!/bin/bash
+
+mydir="$(basename $PWD)"
+
+### HELP ###
+
+Help() {
+	echo "Creates a project build environment for c/c++ projects."
+	echo
+	echo "Syntax: rargo <option>"
+	echo "options:"
+	echo "i | init 		Initialize a project in current directory."
+	echo "b | build 		Used in project root directory. Builds project. Binary will be in build directory."
+	echo "r | run 		Runs current build of project"
+	echo "h | help 		Prints this help prompt"
+}
+
+### INIT ###
+Init() {
+	git init
+	mkdir src include build
+	touch .ccls
+	touch CMakeLists.txt
+	touch ./src/main.cpp
+	printf "cmake_minimum_required(VERSION 3.18)\nget_filename_component(ProjectId \${CMAKE_CURRENT_SOURCE_DIR} NAME)\nstring(REPLACE \" \" \"_\" ProjectId \${ProjectId})\nproject(\$ProjectId})\ninclude_directories(include)\nfile(GLOB SOURCES \"src/*.cpp\")\nadd_executable(\${ProjectId} \${SOURCES})" > CMakeLists.txt
+	printf "clangd\n%%h %%cpp std=c++17\n-I\n./include/" > .ccls
+	printf "#include <iostream>\n\nint main(int argc, char** argv)\n{\n\tstd::cout << \"Hello, world!\" << std::endl;\n}\n" > ./src/main.cpp
+}
+### BUILD ###
+Build() {
+	cd build
+	cmake ..
+	make
+	cd ..
+}
+### RUN ###
+Run() {
+	cd build
+	./$mydir
+	cd ..
+}
+### MAIN PROGRAM ###
+
+# Get options
+while true; do
+	case "$1" in
+		i | init )
+			Init
+			exit;;
+		b | build )
+			Build
+			exit;;
+		r | run )
+			Run
+			exit;;
+		h | help )
+			Help
+			exit;;
+		* )
+			Help
+			exit;;
+	esac
+done

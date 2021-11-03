@@ -23,6 +23,9 @@ Your project directory should look like this.
     └── main.cpp
 ```
 
+You can edit this quite easily to do what you want.
+The .ccls file is for a language server for coc.nvim.
+
 # options
 
 ```

@@ -7,8 +7,6 @@ How to use:
 1. Put rargo in your /usr/bin/ directory.
 2. make a project directory.
 3. in your project directory, run rargo init.
-4. run rargo build.
-5. run rargo run.
 
 Your project directory should look like this. 
 
@@ -22,6 +20,8 @@ Your project directory should look like this.
 └── src
     └── main.cpp
 ```
+
+Test with rargo build then rargo run.
 
 You can edit this quite easily to do what you want.
 The .ccls file is for a language server for coc.nvim.

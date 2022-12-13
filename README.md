@@ -41,6 +41,6 @@ You can edit this quite easily to do what you want.
 i | init 	Initialize a project in current directory.
 b | build 	Used in project root directory. Builds project. Binary will be in build directory.
 r | run 	Runs current build of project
-t | test    Runs GTest tests
+t | test        Runs GTest tests
 h | help 	Prints this help prompt
 ```

@@ -25,8 +25,10 @@ Your project directory should look like this.
 ├── CMakeLists.txt
 ├── .git
 ├── include
+├── tests
+    └── test.cpp
 └── src
-    └── main.cpp
+    └── main.c
 ```
 
 Test with rargo build then rargo run.

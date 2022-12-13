@@ -26,7 +26,7 @@ Your project directory should look like this.
 ├── .git
 ├── include
 ├── tests
-    └── test.cpp
+│   └── test.cpp
 └── src
     └── main.c
 ```

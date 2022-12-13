@@ -12,19 +12,20 @@ Help() {
 	echo "i | init 		Initialize a project in current directory."
 	echo "b | build 		Used in project root directory. Builds project. Binary will be in build directory."
 	echo "r | run 		Runs current build of project"
+	echo "t | test		Runs GTest tests"
 	echo "h | help 		Prints this help prompt"
 }
 
 ### INIT ###
 Init() {
 	git init
-	mkdir src include build
-	touch .ccls
+	mkdir src include build tests
 	touch CMakeLists.txt
-	touch ./src/main.cpp
-	printf "cmake_minimum_required(VERSION 3.18)\nget_filename_component(ProjectId \${CMAKE_CURRENT_SOURCE_DIR} NAME)\nstring(REPLACE \" \" \"_\" ProjectId \${ProjectId})\nproject(\$ProjectId})\ninclude_directories(include)\nfile(GLOB SOURCES \"src/*.cpp\")\nadd_executable(\${ProjectId} \${SOURCES})" > CMakeLists.txt
-	printf "clangd\n%%h %%cpp std=c++17\n-I\n./include/" > .ccls
-	printf "#include <iostream>\n\nint main(int argc, char** argv)\n{\n\tstd::cout << \"Hello, world!\" << std::endl;\n}\n" > ./src/main.cpp
+	touch ./src/main.c
+	touch ./tests/test.cpp
+	printf "cmake_minimum_required(VERSION 3.18)\nget_filename_component(ProjectId \${CMAKE_CURRENT_SOURCE_DIR} NAME)\nstring(REPLACE \" \" \"_\" ProjectId \${ProjectId})\nproject(\${ProjectId})\nfind_package(GTest REQUIRED)\nfind_package(Threads REQUIRED)\ninclude_directories(include \${GTEST_INCLUDE_DIRS})\nfile(GLOB SOURCES \"\")\nadd_executable(\${ProjectId} \"src/main.c\" \${SOURCES})\nadd_executable(runTests \"tests/test.cpp\" \${SOURCES})\ntarget_link_libraries(runTests \${GTEST_LIBRARIES} pthread)" > CMakeLists.txt
+	printf "#include <stdio.h>\n\nint main(int argc, char** argv)\n{\n\treturn 0;\n}\n" > ./src/main.c
+	printf "#include <gtest/gtest.h>\n\nextern \"C\"\n{\n\t// includes\n}\n\nint main(int argc, char **argv)\n{\n\t::testing::InitGoogleTest(&argc, argv);\n\treturn RUN_ALL_TESTS();\n}" > ./tests/test.cpp
 }
 ### BUILD ###
 Build() {
@@ -39,6 +40,13 @@ Run() {
 	./$mydir
 	cd ..
 }
+### TEST ###
+Test() {
+	cd build
+	./runTests
+	cd ..
+}
+
 ### MAIN PROGRAM ###
 
 # Get options
@@ -52,6 +60,9 @@ while true; do
 			exit;;
 		r | run )
 			Run
+			exit;;
+		t | test )
+			Test
 			exit;;
 		h | help )
 			Help

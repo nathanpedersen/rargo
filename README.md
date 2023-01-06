@@ -1,6 +1,6 @@
 # rargo
 
-C build environment creater inspired by cargo.
+C build environment creator shell script
 
 How to use:
 

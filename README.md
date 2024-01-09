@@ -1,6 +1,6 @@
 # rargo
 
-C build environment creator shell script
+C build environment creator shell script using cmake
 
 How to use:
 

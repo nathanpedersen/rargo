@@ -13,6 +13,7 @@ Help() {
 	echo "b | build 		Used in project root directory. Builds project. Binary will be in build directory."
 	echo "r | run 		Runs current build of project"
 	echo "t | test		Runs GTest tests"
+	echo "v | valgrind	Runs current build through valgrind"
 	echo "h | help 		Prints this help prompt"
 }
 
@@ -47,6 +48,12 @@ Test() {
 	cd ..
 }
 
+Val() {
+	cd build
+	valgrind ./$mydir
+	cd ..
+}
+
 ### MAIN PROGRAM ###
 
 # Get options
@@ -66,6 +73,9 @@ while true; do
 			exit;;
 		h | help )
 			Help
+			exit;;
+		v | valgrind )
+			Val
 			exit;;
 		* )
 			Help

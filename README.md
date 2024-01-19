@@ -42,5 +42,6 @@ i | init 	Initialize a project in current directory.
 b | build 	Used in project root directory. Builds project. Binary will be in build directory.
 r | run 	Runs current build of project
 t | test        Runs GTest tests
+v | valgrind    Runs current build through valgrind
 h | help 	Prints this help prompt
 ```
